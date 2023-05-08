@@ -15,10 +15,10 @@ class ViewController: UIViewController {
 //    let hardTime = 12
     
     // dicttionary
-    let eggTimes = ["Soft": 5, "Medium": 7, "Hard": 12]
-    var count = 60
+    let eggTimes = ["Soft": 300, "Medium": 420, "Hard": 720]
 
     @IBAction func hardnessSelected(_ sender: UIButton) {
+        
 //        print("This is the type of egg : \(sender.currentTitle)")
         let hardness = sender.currentTitle!
 //        if hardness == "Soft" {
@@ -35,21 +35,23 @@ class ViewController: UIViewController {
         update()
         
 
-        
+        // one line solution
         print(eggTimes[hardness])
     }
     
     func update() {
+    var count = 60
+
 
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (Timer) in
-            if self.count > 0 {
-                print ("\(self.count) seconds")
-                self.count -= 1
+            if count > 0 {
+                print ("\(count) seconds")
+                count -= 1
             } else {
                 Timer.invalidate()
             }
         }
-        print(count)
+//        print(count)
     }
     
     func typeOfEgg() {
