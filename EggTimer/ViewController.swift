@@ -14,7 +14,7 @@ class ViewController: UIViewController {
 //    let mediumTime = 7
 //    let hardTime = 12
     
-    // dicttionary
+    // dicttionary with times in seconds
     let eggTimes = ["Soft": 300, "Medium": 420, "Hard": 720]
 
     @IBAction func hardnessSelected(_ sender: UIButton) {
@@ -32,15 +32,14 @@ class ViewController: UIViewController {
 //          }
 //        var timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(UIMenuController.update), userInfo: nil, repeats: true)
         
-        update()
-        
+        update(cookTime: eggTimes[hardness]!)
 
         // one line solution
-        print(eggTimes[hardness])
+        print(eggTimes[hardness]!)
     }
     
-    func update() {
-    var count = 60
+    func update( cookTime: Int) {
+    var count = cookTime
 
 
         Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (Timer) in
