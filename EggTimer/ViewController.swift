@@ -84,11 +84,11 @@ class ViewController: UIViewController {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {  (Timer) in
             if self.secondsPassed < cookTime {
                 self.secondsPassed += 1
-                print ("\(self.secondsPassed) seconds")
+//                print ("\(self.secondsPassed) seconds")
                 let percentageProgress = self.secondsPassed / cookTime
-                print(percentageProgress)
+//                print(percentageProgress)
                 self.progressBar.progress = Float(percentageProgress)
-                print("this is the number after the float: \(Float(percentageProgress))")
+//                print("this is the number after the float: \(Float(percentageProgress))")
             } else {
                 Timer.invalidate()
                 // extra check to ensure once timer is up the progress bar always goes to 100
