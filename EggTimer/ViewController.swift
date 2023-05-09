@@ -14,13 +14,14 @@ class ViewController: UIViewController {
 //    let mediumTime = 7
 //    let hardTime = 12
     
+    @IBOutlet weak var mainTitle: UILabel!
     // dicttionary with times in seconds
-    let eggTimes = ["Soft": 300, "Medium": 420, "Hard": 720]
+    let eggTimes = ["Soft": 5, "Medium": 420, "Hard": 720]
     
     var timer = Timer()
 
     @IBAction func hardnessSelected(_ sender: UIButton) {
-
+        print(mainTitle.text)
 //        print("This is the type of egg : \(sender.currentTitle)")
         let hardness = sender.currentTitle!
 //        if hardness == "Soft" {
@@ -48,12 +49,14 @@ class ViewController: UIViewController {
        
 
         timer.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { (Timer) in
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {  (Timer) in
             if count > 0 {
                 print ("\(count) seconds")
                 count -= 1
             } else {
                 Timer.invalidate()
+                self.mainTitle.text = "Done"
+               
             }
         }
 //        print(count)
