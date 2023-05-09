@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 class ViewController: UIViewController {
     
@@ -14,22 +15,31 @@ class ViewController: UIViewController {
 //    let mediumTime = 7
 //    let hardTime = 12
     
+//  IB OUTLETS
     @IBOutlet weak var mainTitle: UILabel!
     @IBOutlet weak var progressBar: UIProgressView!
+    
+    // global vars
     // dicttionary with times in seconds
     let eggTimes = ["Soft": 3, "Medium": 420, "Hard": 720]
 //    var totalTime = 0
     var secondsPassed : Float = 0.0
     var timer = Timer()
+    var player: AVAudioPlayer?
     
 
   
-
+//  IB ACTIONS
     @IBAction func hardnessSelected(_ sender: UIButton) {
 //        print(mainTitle.text)
 //        print(progressBar.progress)
+  
 //        print("This is the type of egg : \(sender.currentTitle)")
         let hardness = sender.currentTitle!
+        
+        progressBar.progress = 0.0
+        secondsPassed = 0.0
+        mainTitle.text = hardness
 //        if hardness == "Soft" {
 //            print("Cook time should be: \(softTime)")
 //        }
@@ -73,16 +83,19 @@ class ViewController: UIViewController {
         
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) {  (Timer) in
             if self.secondsPassed < cookTime {
+                self.secondsPassed += 1
                 print ("\(self.secondsPassed) seconds")
-                var percentageProgress = self.secondsPassed / cookTime
+                let percentageProgress = self.secondsPassed / cookTime
                 print(percentageProgress)
                 self.progressBar.progress = Float(percentageProgress)
                 print("this is the number after the float: \(Float(percentageProgress))")
-                self.secondsPassed += 1
             } else {
                 Timer.invalidate()
+                // extra check to ensure once timer is up the progress bar always goes to 100
                 self.progressBar.progress = 1.0
+                self.playSound()
                 self.mainTitle.text = "DONE!"
+                
                
             }
         }
@@ -90,8 +103,26 @@ class ViewController: UIViewController {
 //        print(count)
     }
      
-    func typeOfEgg() {
-        
+    func playSound() {
+        guard let url = Bundle.main.url(forResource: "alarm_sound", withExtension: "mp3") else { return }
+
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+
+            /* The following line is required for the player to work on iOS 11. Change the file type accordingly*/
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+
+            /* iOS 10 and earlier require the following line:
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileTypeMPEGLayer3) */
+
+            guard let player = player else { return }
+
+            player.play()
+
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
 }
